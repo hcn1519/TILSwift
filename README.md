@@ -2,7 +2,7 @@
 
 ## Table of contents
 
-1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#Loop-Through-Multiple-Arrays-Simultaneously)
+1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#loop-through-multiple-arrays-simultaneously)
 
 ## Contents
 
@@ -16,12 +16,11 @@ let arr2 = [0, 1, 2, 3, 4]
 
 // zip Method: zip(sequence1: Sequence, sequence2: Sequence)
 for (str, num) in zip(arr1, arr2) {
-    // do something
     print("\(num): \(str)")
 }
 ```
 
-When looping sequences of different lengths together, the loop is terminated based on a short-length array.
+When looping through different lengths of sequences together, the loop is terminated based on a short-length array.
 
 ```swift
 let arr1 = ["hello", "world", "it", "is", "swift"]
