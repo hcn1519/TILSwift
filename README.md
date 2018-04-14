@@ -2,11 +2,11 @@
 
 ## Table of contents
 
-1. [Loop Through Multiple Arrays Simultaneously](https://github.com/Luur/SwiftTips#1-safe-way-to-return-element-at-specified-index)
+1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#Loop-Through-Multiple-Arrays-Simultaneously)
 
 ## Contents
 
-### 1. Loop Through Multiple Arrays Simultaneously
+### [1. Loop Through Multiple Arrays Simultaneously](Loop-Through-Multiple-Arrays-Simultaneously)
 
 Use `zip` to do this.
 
