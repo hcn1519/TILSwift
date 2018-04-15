@@ -4,6 +4,7 @@
 
 1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#loop-through-multiple-arrays-simultaneously)
 
+2. [Set Decoder with userInfoKey For your initializer with options](https://github.com/hcn1519/iOS_Swift_Snippet#set-decoder-with-userInfoKey-for-your-initializer-with-options)
 ## Contents
 
 ### Loop Through Multiple Arrays Simultaneously
@@ -40,5 +41,45 @@ let arr3 = ["a", "b", "c", "d", "e"]
 
 for (label, (str, num)) in zip(arr3, (zip(arr1, arr2))) {
     print("\(label), \(num): \(str)")
+}
+```
+
+### Set Decoder with userInfoKey For your initializer with options
+
+```swift
+struct Computer: Codable {
+  let isRunnig: Bool
+
+  enum CodingKeys: String, CodingKey {
+      case isRunnig = "isRunnig"
+  }
+}
+extension Computer {
+  init(from decoder: Decoder) throws {
+      let codingKey = try decoder.container(keyedBy: CodingKeys.self)
+
+      let isRunning: Bool = try {
+        if let userInfo = decoder.userInfo[CodingUserInfoKey(rawValue: "type")!] as? String {
+          if userInfo == "decodeJson" {
+              let isRunningValue = try codingKey.decode(Int.self, forKey: .isRunnig)
+              return isRunningValue == 1 ? true : false
+          } else {
+              return try codingKey.decode(Bool.self, forKey: .complete)
+          }
+        }
+        return false
+      }()
+  }
+}
+```
+
+```swift
+func request(computer: Requset) {
+  let response = try response.filterSuccessfulStatusCodes()
+  let decoder = JSONDecoder()
+  if let userInfoKey = CodingUserInfoKey(rawValue: "type") {
+      let codingUserInfo: [CodingUserInfoKey: Any] = [userInfoKey: "decodeJson"]
+      decoder.userInfo = codingUserInfo
+  }
 }
 ```
