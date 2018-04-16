@@ -4,7 +4,7 @@
 
 1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#loop-through-multiple-arrays-simultaneously)
 
-2. [Set Decoder with userInfoKey For your initializer with options](https://github.com/hcn1519/iOS_Swift_Snippet#set-decoder-with-userInfoKey-for-your-initializer-with-options)
+2. [Set Custom Decoder](https://github.com/hcn1519/iOS_Swift_Snippet#set-custom-decoder)
 ## Contents
 
 ### Loop Through Multiple Arrays Simultaneously
@@ -44,7 +44,23 @@ for (label, (str, num)) in zip(arr3, (zip(arr1, arr2))) {
 }
 ```
 
-### Set Decoder with userInfoKey For your initializer with options
+### Set Custom Decoder
+
+Sometimes we need to initialize struct which conforms `Codable` protocol in different ways when initializing it.
+
+For example, your struct has 'Bool' type property, but your server API send that property with `Int` type. In this case, if your job is only for `decode` it does not matters. However if you try to `encode` that property to `Bool` type, you will get in trouble. To resolve this kind of situation, you can give your `CodingUserInfo` to your `decoder` and initialize both cases.
+
+1. Give your `decoder` some `userInfo` whatever you want.
+
+```swift
+let decoder = JSONDecoder()
+if let userInfoKey = CodingUserInfoKey(rawValue: "type") {
+    let codingUserInfo: [CodingUserInfoKey: Any] = [userInfoKey: "decodeJson"]
+    decoder.userInfo = codingUserInfo
+}
+```
+
+2. Use `userInfo` from `init(from decoder: Decoder)`
 
 ```swift
 struct Computer: Codable {
@@ -69,17 +85,6 @@ extension Computer {
         }
         return false
       }()
-  }
-}
-```
-
-```swift
-func request(computer: Requset) {
-  let response = try response.filterSuccessfulStatusCodes()
-  let decoder = JSONDecoder()
-  if let userInfoKey = CodingUserInfoKey(rawValue: "type") {
-      let codingUserInfo: [CodingUserInfoKey: Any] = [userInfoKey: "decodeJson"]
-      decoder.userInfo = codingUserInfo
   }
 }
 ```
