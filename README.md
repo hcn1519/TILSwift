@@ -3,8 +3,9 @@
 ## Table of contents
 
 1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#loop-through-multiple-arrays-simultaneously)
-
 2. [Set Custom Decoder](https://github.com/hcn1519/iOS_Swift_Snippet#set-custom-decoder)
+3. [Nested Enum](https://github.com/hcn1519/iOS_Swift_Snippet#nested-enum)
+
 ## Contents
 
 ### Loop Through Multiple Arrays Simultaneously
@@ -86,5 +87,56 @@ extension Computer {
         return false
       }()
   }
+}
+```
+
+### Nested Enum
+
+You can use nested enum for complex situation. Here is an example. You have an edior for writing texts or uploading images. You want to set `ContentState` of editor using enum. So your first approach will be like this.
+
+```swift
+class Editor {
+  enum ContentState {
+    case writingText, settingImage
+  }
+
+  var contentState: ContentState
+}
+```
+
+After few weeks later, You have received a proposal for an editor with a new feature. For example, your editor only had Adding feature, but now it can edit or delete text. You need to upgrade image feature also. So, In this case `ContentState` can have nested enum like this.
+
+```swift
+enum ContentState {
+    enum TextType {
+        case addText, editText, deleteText
+    }
+    enum ImageType {
+        case addImage, editImage, deleteImage
+    }
+    case text(TextType)
+    case image(ImageType)
+    case none
+}
+```
+In this case you can set your `contentState` property like this.
+
+```swift
+self.contentState = ContentState.image(.addImage)
+```
+
+And enum with `switch`,
+
+```swift
+switch contentState {
+  case .text(.editText):
+    break
+  case .image(.setActorImage):
+    break
+  case .image(.setBackgroundImage):
+    break
+  case .image(.setMessageImage):
+  default:
+    break
 }
 ```
