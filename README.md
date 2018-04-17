@@ -49,7 +49,7 @@ for (label, (str, num)) in zip(arr3, (zip(arr1, arr2))) {
 
 Sometimes we need to initialize struct which conforms `Codable` protocol in different ways when initializing it.
 
-For example, your struct has 'Bool' type property, but your server API send that property with `Int` type. In this case, if your job is only for `decode` it does not matters. However if you try to `encode` that property to `Bool` type, you will get in trouble. To resolve this kind of situation, you can give your `CodingUserInfo` to your `decoder` and initialize both cases.
+For example, your struct has `Bool` type property, but your server API send that property with `Int` type. In this case, if your job is only for `decode`, it does not matters. However if you try to `encode` that property to `Bool` type, you will get in trouble. To resolve this kind of situation, you can give your `CodingUserInfo` to your `decoder` and initialize both cases.
 
 1. Give your `decoder` some `userInfo` whatever you want.
 
@@ -92,7 +92,7 @@ extension Computer {
 
 ### Nested Enum
 
-You can use nested enum for complex situation. Here is an example. You have an edior for writing texts or uploading images. You want to set `ContentState` of editor using enum. So your first approach will be like this.
+You can use nested enum for complex situation. Here is an example. You have an editor for upload texts or images. And You want to keep track of your editor by using `ContentState` property. In this case, you can use `enum`. So your first approach will be like this.
 
 ```swift
 class Editor {
@@ -104,25 +104,41 @@ class Editor {
 }
 ```
 
-After few weeks later, You have received a proposal for an editor with a new feature. For example, your editor only had Adding feature, but now it can edit or delete text. You need to upgrade image feature also. So, In this case `ContentState` can have nested enum like this.
+After few weeks later, You have received a proposal for an editor with a new feature. For example, your editor only had Adding feature, but now it can edit or delete text or images. So, In this case you need to update your `ContentState`.
 
 ```swift
-enum ContentState {
-    enum TextType {
-        case addText, editText, deleteText
-    }
-    enum ImageType {
-        case addImage, editImage, deleteImage
-    }
-    case text(TextType)
-    case image(ImageType)
-    case none
+class Editor {
+  enum ContentState {
+      case addText, editText, deleteText, addImage, editImage, deleteImage
+  }
+  var contentState: ContentState
 }
 ```
-In this case you can set your `contentState` property like this.
+It's not that bad 🤔. But there are things that are not satisfactory. We know that text and images are clearly different. However, `ContentState` does not seperate those. In this case you can use `Nested Enum`. Here is new `ContentState`
 
 ```swift
-self.contentState = ContentState.image(.addImage)
+class Editor {
+  enum ContentState {
+      enum TextType {
+          case addText, editText, deleteText
+      }
+      enum ImageType {
+          case addImage, editImage, deleteImage
+      }
+      case text(TextType)
+      case image(ImageType)
+      case none
+  }
+  var contentState: ContentState
+}
+```
+
+Readability gets better! 😄. You now can see that `ContentState` has `TextType` or `ImageType` with each cases.
+
+You can set your `contentState` property like this.
+
+```swift
+contentState = ContentState.image(.addImage)
 ```
 
 And enum with `switch`,
