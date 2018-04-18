@@ -5,6 +5,7 @@
 1. [Loop Through Multiple Arrays Simultaneously](https://github.com/hcn1519/iOS_Swift_Snippet#loop-through-multiple-arrays-simultaneously)
 2. [Set Custom Decoder](https://github.com/hcn1519/iOS_Swift_Snippet#set-custom-decoder)
 3. [Nested Enum](https://github.com/hcn1519/iOS_Swift_Snippet#nested-enum)
+4. [UIImage With Insets](https://github.com/hcn1519/iOS_Swift_Snippet#uiimage-with-insets)
 
 ## Contents
 
@@ -154,5 +155,24 @@ switch contentState {
   case .image(.setMessageImage):
   default:
     break
+}
+```
+
+### UIImage With Insets
+
+```
+extension UIImage {
+    func imageWithInsets(insets: UIEdgeInsets) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(
+            CGSize(width: self.size.width + insets.left + insets.right,
+                   height: self.size.height + insets.top + insets.bottom),
+            false, self.scale)
+        guard UIGraphicsGetCurrentContext() != nil else { return UIImage() }
+        let origin = CGPoint(x: insets.left, y: insets.top)
+        self.draw(at: origin)
+        guard let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext() else { return UIImage() }
+        UIGraphicsEndImageContext()
+        return imageWithInsets
+    }
 }
 ```
