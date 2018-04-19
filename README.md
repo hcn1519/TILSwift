@@ -6,6 +6,7 @@
 2. [Set Custom Decoder](https://github.com/hcn1519/iOS_Swift_Snippet#set-custom-decoder)
 3. [Nested Enum](https://github.com/hcn1519/iOS_Swift_Snippet#nested-enum)
 4. [UIImage With Insets](https://github.com/hcn1519/iOS_Swift_Snippet#uiimage-with-insets)
+5. [Gradient Layer On UITableViewCell](https://github.com/hcn1519/iOS_Swift_Snippet#gradient-layer-on-uITableViewCell)
 
 ## Contents
 
@@ -176,3 +177,5 @@ extension UIImage {
     }
 }
 ```
+
+### Gradient Layer On UITableViewCell
