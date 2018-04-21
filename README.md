@@ -183,7 +183,7 @@ extension UIImage {
 ```
 
 #### Usage
-```
+```swift
 let defaultImage = UIImage()
 let insetImage = defaultImage.imageWithInsets(insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
 ```
@@ -208,7 +208,9 @@ class TableViewCell: UITableViewCell {
         backImageView.addGradient(with: gradientLayer, gradientFrame: self.frame, colorSet: colorSet, locations: location)
     }
 }
+```
 
+```swift
 extension UIView {
     func addGradient(with layer: CAGradientLayer, gradientFrame: CGRect? = nil, colorSet: [UIColor], locations: [Double]) {
         layer.frame = gradientFrame ?? self.bounds
