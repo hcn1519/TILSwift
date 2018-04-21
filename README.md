@@ -7,7 +7,7 @@
 3. [Nested Enum](https://github.com/hcn1519/iOS_Swift_Snippet#nested-enum)
 4. [UIImage With Insets](https://github.com/hcn1519/iOS_Swift_Snippet#uiimage-with-insets)
 5. [Gradient Layer On UITableViewCell](https://github.com/hcn1519/iOS_Swift_Snippet#gradient-layer-on-uITableViewCell)
-
+6. [Use Default Value in Protocol](https://github.com/hcn1519/iOS_Swift_Snippet#use-default-value-in-protocol)
 ## Contents
 
 ### Loop Through Multiple Arrays Simultaneously
@@ -161,7 +161,11 @@ switch contentState {
 
 ### UIImage With Insets
 
-```
+There are some cases that Modifing `imageView`'s' frame not works. For example, if you want to set custom back image in `navigationBar`, you cannot move your image with your `leftBarButtonItem` frame. In this case you need to set inset of your image and move it.
+
+Below `UIImage` extenstion is for modifing your image's inset.
+
+```swift
 extension UIImage {
     func imageWithInsets(insets: UIEdgeInsets) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(
@@ -178,4 +182,46 @@ extension UIImage {
 }
 ```
 
+#### Usage
+```
+let defaultImage = UIImage()
+let insetImage = defaultImage.imageWithInsets(insets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0))
+```
+
 ### Gradient Layer On UITableViewCell
+
+```swift
+
+import UIKit
+
+class TableViewCell: UITableViewCell {
+
+    let gradientLayer = CAGradientLayer()
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: self.layer)
+
+        let colorSet = [UIColor.sameRGB(divideBy255From: 255, alpha: 0.0),
+                        UIColor.sameRGB(divideBy255From: 0, alpha: 0.4)]
+        let location = [0.0, 1.0]
+
+        backImageView.addGradient(with: gradientLayer, gradientFrame: self.frame, colorSet: colorSet, locations: location)
+    }
+}
+
+extension UIView {
+    func addGradient(with layer: CAGradientLayer, gradientFrame: CGRect? = nil, colorSet: [UIColor], locations: [Double]) {
+        layer.frame = gradientFrame ?? self.bounds
+        layer.frame.origin = .zero
+
+        let layerColorSet = colorSet.map { $0.cgColor }
+        let layerLocations = locations.map { $0 as NSNumber }
+
+        layer.colors = layerColorSet
+        layer.locations = layerLocations
+
+        self.layer.insertSublayer(layer, above: self.layer)
+    }
+}
+```
+### Use Default Value in Protocol
