@@ -190,25 +190,8 @@ let insetImage = defaultImage.imageWithInsets(insets: UIEdgeInsets(top: 0, left:
 
 ### Gradient Layer On UITableViewCell
 
-```swift
+Adding `GradientLayer`(or some other subLayer) on `UITableViewCell` requires you to set `frame`. For example, if you want to set `GradientLayer` overlapping whole cell's frame, you need to specify `GradientLayer`'s frame. If you don't you will see some weird frame of `GradientLayer`.
 
-import UIKit
-
-class TableViewCell: UITableViewCell {
-
-    let gradientLayer = CAGradientLayer()
-
-    override func layoutSublayers(of layer: CALayer) {
-        super.layoutSublayers(of: self.layer)
-
-        let colorSet = [UIColor.sameRGB(divideBy255From: 255, alpha: 0.0),
-                        UIColor.sameRGB(divideBy255From: 0, alpha: 0.4)]
-        let location = [0.0, 1.0]
-
-        backImageView.addGradient(with: gradientLayer, gradientFrame: self.frame, colorSet: colorSet, locations: location)
-    }
-}
-```
 
 ```swift
 extension UIView {
@@ -226,4 +209,50 @@ extension UIView {
     }
 }
 ```
+
+#### Usage
+
+1. Make `CAGradientLayer` on your `UITableViewCell`.
+```swift
+class TableViewCell: UITableViewCell {}
+    let gradientLayer = CAGradientLayer()
+}
+```
+
+2. Set `func layoutSublayers(of:)` to use your layer as `UITableViewCell` as subLayer.
+
+```swift
+class TableViewCell: UITableViewCell {
+
+    let gradientLayer = CAGradientLayer()
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: self.layer)
+    }
+```
+
+3. Call the extension above like this.
+
+```swift
+class TableViewCell: UITableViewCell {
+
+    let gradientLayer = CAGradientLayer()
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: self.layer)
+
+        // Gradient layer options
+        let colorSet = [UIColor.sameRGB(divideBy255From: 255, alpha: 0.0),
+                        UIColor.sameRGB(divideBy255From: 0, alpha: 0.4)]
+        let location = [0.0, 1.0]
+
+        // Add Gradient layer wherever you want.
+        // ⚠️ Warning: Without setting gradient frame, you will get weird frame of your layer.
+        backImageView.addGradient(with: gradientLayer, gradientFrame: self.frame, colorSet: colorSet, locations: location)
+    }
+}
+```
+
+
+
 ### Use Default Value in Protocol
