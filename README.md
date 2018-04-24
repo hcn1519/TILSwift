@@ -256,3 +256,32 @@ class TableViewCell: UITableViewCell {
 
 
 ### Use Default Value in Protocol
+
+```swift
+protocol Message {
+    var content: String { get set }
+    func updateContent(content: String?)
+}
+
+
+```
+
+```swift
+extension Message {
+    func updateContent(content: String? = nil) {
+        return updateContent(content: "No Content")
+    }
+}
+```
+
+#### Usage
+```swift
+
+struct MyMessage: Message {
+    var content: String
+}
+
+let message1 = MyMessage(content: "Hello")
+let message2 = MyMessage(content: "World")
+
+```
