@@ -8,6 +8,8 @@
 4. [UIImage With Insets](https://github.com/hcn1519/iOS_Swift_Snippet#uiimage-with-insets)
 5. [Gradient Layer On UITableViewCell](https://github.com/hcn1519/iOS_Swift_Snippet#gradient-layer-on-uITableViewCell)
 6. [Use Default Value in Protocol](https://github.com/hcn1519/iOS_Swift_Snippet#use-default-value-in-protocol)
+7. [Handy Unwrapping Optionals](https://github.com/hcn1519/iOS_Swift_Snippet#nandy-unwrapping-optionals))
+
 ## Contents
 
 ### Loop Through Multiple Arrays Simultaneously
@@ -262,8 +264,6 @@ protocol Message {
     var content: String { get set }
     func updateContent(content: String?)
 }
-
-
 ```
 
 ```swift
@@ -284,4 +284,14 @@ struct MyMessage: Message {
 let message1 = MyMessage(content: "Hello")
 let message2 = MyMessage(content: "World")
 
+```
+
+### Handy Unwrapping Optionals
+
+
+```swift
+let helveticaNeueRegular = UIFont(name: "HelveticaNeue", size: 14) ?? UIFont()
+let helveticaNeueBold = UIFont(name: "HelveticaNeue-Bold", size: 17) ?? UIFont()
+
+// Type of helveticaNeueRegular and helveticaNeueBold is UIFont(not UIFont?)
 ```
