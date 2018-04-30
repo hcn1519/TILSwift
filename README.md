@@ -8,7 +8,8 @@
 4. [UIImage With Insets](https://github.com/hcn1519/iOS_Swift_Snippet#uiimage-with-insets)
 5. [Gradient Layer On UITableViewCell](https://github.com/hcn1519/iOS_Swift_Snippet#gradient-layer-on-uITableViewCell)
 6. [Use Default Value in Protocol](https://github.com/hcn1519/iOS_Swift_Snippet#use-default-value-in-protocol)
-7. [Handy Unwrapping Optionals](https://github.com/hcn1519/iOS_Swift_Snippet#nandy-unwrapping-optionals))
+7. [Handy Unwrapping Optionals](https://github.com/hcn1519/iOS_Swift_Snippet#nandy-unwrapping-optionals)
+8. [Device Size Inspection](https://github.com/hcn1519/iOS_Swift_Snippet#device-size-inspection)
 
 ## Contents
 
@@ -294,4 +295,53 @@ let helveticaNeueRegular = UIFont(name: "HelveticaNeue", size: 14) ?? UIFont()
 let helveticaNeueBold = UIFont(name: "HelveticaNeue-Bold", size: 17) ?? UIFont()
 
 // Type of helveticaNeueRegular and helveticaNeueBold is UIFont(not UIFont?)
+```
+
+### Device Size Inspection
+
+```swift
+import UIKit
+
+extension UIDevice {
+
+    public var isiPhoneSE: Bool {
+        return checkDevice(type: .phone, resolution: CGSize(width: 320, height: 568))
+    }
+
+    public var isiPhonePlus: Bool {
+        return checkDevice(type: .phone, resolution: CGSize(width: 736, height: 414))
+    }
+
+    public var isiPhoneX: Bool {
+        return checkDevice(type: .phone, resolution: CGSize(width: 375, height: 812))
+    }
+
+    public var isiPad: Bool {
+        return checkDevice(type: .pad, resolution: CGSize(width: 768, height: 1024))
+    }
+
+    public var isiPadPro105: Bool {
+        return checkDevice(type: .pad, resolution: CGSize(width: 834, height: 1112))
+    }
+
+    public var isiPadPro12: Bool {
+        return checkDevice(type: .pad, resolution: CGSize(width: 1024, height: 1366))
+    }
+
+    func checkDevice(type: UIUserInterfaceIdiom, resolution: CGSize) -> Bool {
+        return (UIDevice.current.userInterfaceIdiom == type && (UIScreen.main.bounds.size.width == resolution.width && UIScreen.main.bounds.size.height == resolution.height))
+    }
+}
+```
+
+#### Usage
+
+```swift
+if UIDevice.current.isiPhoneX {
+  // iPhoneX
+} else if UIDevice.current.isiPhoneSE {
+  // iPhoneSE
+} else if UIDevice.current.isiPadPro105 {
+  // iPad 10.5 inch
+}
 ```
